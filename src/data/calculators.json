@@ -8,10 +8,16 @@
     "description": "Calculate mortgage payments.",
     "intro": "Estimate monthly costs.",
     "inputs": {
-      "p_label": "Loan Amount",
+      "p_label": "Home Price",
       "r_label": "Rate %",
       "t_label": "Years"
     },
+    "extras": [
+      {"id": "down", "label": "Down Payment", "default": 80000},
+      {"id": "tax", "label": "Annual Property Tax", "default": 3600},
+      {"id": "ins", "label": "Annual Insurance", "default": 1200},
+      {"id": "hoa", "label": "Monthly HOA", "default": 0}
+    ],
     "meta_title_us": "US Mortgage Calc",
     "h1_title_us": "US Mortgage Calculator",
     "article_body_us": "<p>Mortgage details.</p>"
@@ -29,6 +35,10 @@
       "r_label": "Rate %",
       "t_label": "Years"
     },
+    "extras": [
+      {"id": "down", "label": "Down Payment", "default": 5000},
+      {"id": "trade", "label": "Trade-in Value", "default": 0}
+    ],
     "meta_title_us": "Car Loan Calc",
     "h1_title_us": "Car Loan Calculator",
     "article_body_us": "<p>Car loan details.</p>"
@@ -61,7 +71,7 @@
     "inputs": {
       "p_label": "Debt Balance",
       "r_label": "Rate %",
-      "t_label": "Months"
+      "t_label": "Years"
     },
     "meta_title_us": "Debt Payoff",
     "h1_title_us": "Debt Payoff Calculator",
@@ -128,6 +138,9 @@
       "r_label": "Rate %",
       "t_label": "Years"
     },
+    "extras": [
+      {"id": "contrib", "label": "Monthly Contribution", "default": 500}
+    ],
     "meta_title_us": "Compound Interest",
     "h1_title_us": "Compound Interest Calculator",
     "article_body_us": "<p>Growth details.</p>"
@@ -162,6 +175,9 @@
       "r_label": "Rate %",
       "t_label": "Years"
     },
+    "extras": [
+      {"id": "contrib", "label": "Monthly Savings", "default": 200}
+    ],
     "meta_title_us": "Savings Goal",
     "h1_title_us": "Savings Goal Calculator",
     "article_body_us": "<p>Savings details.</p>"
@@ -175,10 +191,13 @@
     "description": "Retirement savings.",
     "intro": "Project 401k.",
     "inputs": {
-      "p_label": "Balance",
+      "p_label": "Current Balance",
       "r_label": "Return %",
-      "t_label": "Years"
+      "t_label": "Years to Retirement"
     },
+    "extras": [
+      {"id": "contrib", "label": "Monthly Contribution", "default": 500}
+    ],
     "meta_title_us": "401k Calculator",
     "h1_title_us": "401k Calculator",
     "article_body_us": "<p>Retirement details.</p>"
@@ -192,10 +211,13 @@
     "description": "Plan for tuition.",
     "intro": "Save for college.",
     "inputs": {
-      "p_label": "Savings",
+      "p_label": "Current Savings",
       "r_label": "Return %",
-      "t_label": "Years"
+      "t_label": "Years Until College"
     },
+    "extras": [
+      {"id": "contrib", "label": "Monthly Savings", "default": 300}
+    ],
     "meta_title_us": "College Savings",
     "h1_title_us": "College Savings Calculator",
     "article_body_us": "<p>College details.</p>"
@@ -275,7 +297,7 @@
     "description": "Property yield.",
     "intro": "Rental profit.",
     "inputs": {
-      "c_label": "Cost",
+      "c_label": "Property Cost",
       "v_label": "Annual Rent"
     },
     "meta_title_us": "Rental Yield",
@@ -291,8 +313,8 @@
     "description": "Assets - Liabilities.",
     "intro": "Find net worth.",
     "inputs": {
-      "v1_label": "Assets",
-      "v2_label": "Liabilities"
+      "v1_label": "Total Assets",
+      "v2_label": "Total Liabilities"
     },
     "meta_title_us": "Net Worth",
     "h1_title_us": "Net Worth Calculator",
@@ -323,7 +345,7 @@
     "description": "Calculate tips.",
     "intro": "Determine tip.",
     "inputs": {
-      "v1_label": "Bill",
+      "v1_label": "Bill Amount",
       "v2_label": "Tip %"
     },
     "meta_title_us": "Tip Calculator",
