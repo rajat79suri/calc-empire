@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CalculatorForm from '../../components/CalculatorForm.astro';
+import calculators from '../../data/calculators.json';
+
+export async function getStaticPaths() {
+  const countries = ['us', 'uk', 'in', 'ae'];
+  return calculators.flatMap(calc => 
+    countries.map(country => ({
+      params: { country, slug: calc.slug },
+      props: { calc, country }
+    }))
+  );
+}
+
+const { calc, country } = Astro.props;
+const currencyMap = { us: '$', uk: '£', in: '₹', ae: 'AED ' };
+const currency = currencyMap[country] || '$';
+const getLoc = (key) => calc[`${key}_${country}`] || calc[key]; 
+
+const pageTitle = getLoc('h1_title') || calc.title;
+const metaTitle = getLoc('meta_title') || `${calc.title} - Free Online Tool`;
+const metaDesc = getLoc('meta_description') || calc.description;
+const pageBody = getLoc('article_body') || `<p>${calc.intro}</p>`;
+const pageFaqs = getLoc('faqs') || [];
+
+const schemaData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "Organization", "name": "CalculatorHub", "url": "https://calc-empire.com" },
+    {
+      "@type": "SoftwareApplication",
+      "name": pageTitle,
+      "description": metaDesc,
+      "applicationCategory": "https://schema.org/FinanceApplication",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calc-empire.com" },
+        { "@type": "ListItem", "position": 2, "name": country.toUpperCase(), "item": `https://calc-empire.com/${country}` },
+        { "@type": "ListItem", "position": 3, "name": calc.title, "item": `https://calc-empire.com/${country}/${calc.slug}` }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": `How to use the ${calc.title}`,
+      "step": Object.values(calc.inputs || {}).map((label, index) => ({
+        "@type": "HowToStep",
+        "position": index + 1,
+        "name": `Enter ${label}`,
+        "text": `Input the value for ${label} into the designated field.`
+      }))
+    }
+  ]
+};
+
+if (pageFaqs.length > 0) {
+  schemaData["@graph"].push({
+    "@type": "FAQPage",
+    "mainEntity": pageFaqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  });
+}
+---
+
+<BaseLayout title={metaTitle} description={metaDesc} slug={calc.slug} country={country} schema={schemaData}>
+  <div class="text-center mb-10 pt-4">
+    <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-4 tracking-tight">{pageTitle}</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">{calc.intro}</p>
+  </div>
+  <CalculatorForm calculator={calc} currency={currency} />
+  <article class="prose dark:prose-invert max-w-2xl mx-auto mt-16 p-4 border-t border-gray-100 dark:border-gray-800">
+    <div set:html={pageBody} />
+    {pageFaqs.length > 0 && (
+      <div class="mt-12">
+        <h2 class="text-2xl font-bold mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {pageFaqs.map(faq => (
+            <details class="group bg-gray-50 dark:bg-gray-800 rounded-lg p-4 cursor-pointer">
+              <summary class="font-semibold list-none flex justify-between items-center text-gray-900 dark:text-white">
+                <span>{faq.q}</span>
+                <span class="text-blue-600 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <p class="mt-3 text-gray-600 dark:text-gray-300 leading-relaxed text-sm">{faq.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    )}
+  </article>
+</BaseLayout>

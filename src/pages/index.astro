@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import calculators from '../data/calculators.json';
+
+const pageTitle = "CalculatorHub - 20+ Free Financial Tools";
+const pageDesc = "Free calculators for Mortgage, Loans, ROI, Retirement, and more. Instant results, no signup.";
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} slug="" country="us">
+	<section class="text-center py-20 px-4">
+		<h1 class="text-5xl md:text-6xl font-black text-gray-900 dark:text-white mb-6 tracking-tight">
+			Solve Your <span class="text-blue-600">Numbers.</span>
+		</h1>
+		<p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+			20+ Professional financial calculators. Free. Private. Instant.
+			<br />
+			<span class="text-sm opacity-75">Optimized for US, UK, India, and UAE.</span>
+		</p>
+	</section>
+
+	<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto px-4 pb-24">
+		{calculators.map(calc => (
+			<a href={`/us/${calc.slug}`} class="group block p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-2xl border border-gray-100 dark:border-gray-700 transition-all duration-300 transform hover:-translate-y-1">
+				<div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-200">{calc.icon}</div>
+				<h3 class="font-bold text-xl text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">{calc.title}</h3>
+				<p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">{calc.description}</p>
+			</a>
+		))}
+	</section>
+</BaseLayout>
